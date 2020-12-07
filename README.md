@@ -62,7 +62,7 @@ To install Miniconda3:
 
 ## Usage
 
-### Setting up your working environment for SCORPiOs
+### Setting up your working environment for FINSURF
 
 Before any FINSURF run, you should:
  - go to FINSURF root folder,
@@ -77,7 +77,7 @@ Before using FINSURF on your data, we recommend running a test with our example 
 FINSURF uses a YAML configuration file to specify inputs and parameters for each run.
 An example configuration file is provided: [config_example.yaml](config_example.yaml). This configuration file executes FINSURF on toy example data located in [data/example/](data/samples/), that you can use as reference for input formats.
 
-The only required snakemake arguments to run SCORPiOs are `--configfile` and the `--use-conda` flag. Optionally, you can specify the number of threads via the `--cores` option. For more advanced options, you can look at the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/).
+The only required snakemake arguments to run FINSURF are `--configfile` and the `--use-conda` flag. Optionally, you can specify the number of threads via the `--cores` option. For more advanced options, you can look at the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/).
 
 To run FINSURF on example data:
 
