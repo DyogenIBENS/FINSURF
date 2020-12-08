@@ -1,0 +1,3 @@
+#ignore data files (too big for github) - users have to doxnload them from https://www.opendata.bio.ens.psl.eu/FINSURF/
+static/data
+scripts/__pycache__/
