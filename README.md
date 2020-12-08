@@ -144,11 +144,12 @@ Before using FINSURF on your data, we recommend running a test with our example 
 To run FINSURF on example data:
 
 ```
-python scripts/finsurf.py -i data/samples/variant.vcf -s data/scores_all_chroms_1e-4.tsv.gz -g data/FINSURF_REGULATORY_REGIONS_GENES.bed.gz -ig data/samples/gene.txt
+scripts/finsurf.py -i static/data/samples/variant.vcf -s static/data/scores_all_chroms_1e-4.tsv.gz -g static/data/FINSURF_REGULATORY_REGIONS_GENES.bed.gz -ig static/data/samples/gene.txt
+
 ```
 
 The following output should be generated:
-`FINSURF_examples/FINSURF_output_0.txt`.
+`res/result_*.txt`.
 
 
 

@@ -175,7 +175,7 @@ def expand_regions(regions, start):
                              reg.vartype,
                              reg.vartrans])
         except Exception as e:
-            return "Error: at line " + str(row_id + 1) + ": \n" + str(reg)      
+            return "Error"+ e +": at line " + str(row_id + 1) + ": \n" + str(reg)      
     #
     expanded_df = pd.DataFrame(list_pos,
                                columns=columns_varinfo)
