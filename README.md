@@ -22,10 +22,10 @@ and the CeCILL licence version 2 of the CNRS. These licences are contained in th
 1. [LICENSE-GPL.txt](LICENSE-GPL.txt) (or on [www.gnu.org](https://www.gnu.org/licenses/gpl-3.0-standalone.html))
 2. [LICENCE-CeCILL.txt](LICENCE-CeCILL.txt) (or on [www.cecill.info](https://cecill.info/licences/Licence_CeCILL_V2-en.html))
 
-Copyright for this code is held by the Dyogen (DYnamic and Organisation of GENomes) team
-of the Institut de Biologie de l'Ecole Normale Supérieure (IBENS) 46 rue d'Ulm Paris and the individual authors.
+Copyright for this code is held by the [Dyogen](http://www.ibens.ens.fr/?rubrique43) (DYnamic and Organisation of GENomes) team
+of the Institut de Biologie de l'Ecole Normale Supérieure ([IBENS](http://www.ibens.ens.fr)) 46 rue d'Ulm Paris and the individual authors.
 
-- Copyright © 2020 IBENS/Dyogen : Lambert Moyon, Alexandra LOUIS, Thi Thuy Nga NGUYEN, Camille Berthelot and Hugues ROEST CROLLIUS
+- Copyright © 2020 IBENS/Dyogen : **Lambert MOYON**, Alexandra LOUIS, Thi Thuy Nga NGUYEN, Camille Berthelot and Hugues ROEST CROLLIUS
 
 ## Contact
 
@@ -155,17 +155,5 @@ The following output should be generated:
 `FINSURF_examples/FINSURF_output_0.txt`.
 
 
-## Authors
-* [**Lambert Moyon**](mailto:lambert.moyon@bio.ens.psl.eu)
-* **Alexandra Louis**
-* **Nga Thi Thui Nguyen**
-* **Camille Berthelot**
-* **Hugues Roest Crollius**
 
-## License
-
-This code may be freely distributed and modified under the terms of the GNU General Public License version 3 (GPL v3)
-- [LICENSE GPLv3](LICENSE.txt)
-
-## References
 
