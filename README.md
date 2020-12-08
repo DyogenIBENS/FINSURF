@@ -67,6 +67,47 @@ To install Miniconda3:
   conda env create -f envs/finsurf.yaml
   ```
 
+- Download feature contributions and gene associations.
+  
+  You have to download the data files (80Go) that have to be intersect with your variants on <http://opendata.bio.ens.psl.eu/FINSURF/>
+
+  wget <http://opendata.bio.ens.psl.eu/FINSURF/finsurf_data.tar>
+
+  tar -xvf finsur_data.tar
+
+
+  the architecture of the finsurf directory should then be:
+- __FINSURF__
+   - [LICENSE.txt](LICENSE.txt)
+   - [README.md](README.md)
+   - __env__
+     - [finsurf.yaml](env/finsurf.yaml)
+   - __scripts__
+     - [finsurf.py](scripts/finsurf.py)
+     - [plot\_contribution.py](scripts/plot_contribution.py)
+     - [utils.py](scripts/utils.py)
+   - __static__
+     - __data__
+       - 2020\-05\-11\_table\_genes\_FINSURF\_regions.tsv
+       - FINSURF\_REGULATORY\_REGIONS\_GENES.bed.gz
+       - FINSURF\_REGULATORY\_REGIONS\_GENES.bed.gz.tbi
+       - __FINSURF\_model\_objects__
+         - full\-model\_woTargs\_columns.txt
+         - rename\_columns\_model.tsv
+       - FULL\_FC\_transition.tsv.gz
+       - FULL\_FC\_transition.tsv.gz.tbi
+       - FULL\_FC\_transversion.tsv.gz
+       - FULL\_FC\_transversion.tsv.gz.tbi
+       - NUM\_FEATURES.tsv.gz
+       - NUM\_FEATURES.tsv.gz.tbi
+       - SCALED\_NUM\_FEATURES.tsv.gz
+       - SCALED\_NUM\_FEATURES.tsv.gz.tbi
+       - scores\_all\_chroms\_1e\-4.tsv.gz
+       - scores\_all\_chroms\_1e\-4.tsv.gz.tbi
+     - __samples__
+       - [gene.txt](static/samples/gene.txt)
+       - [variant.vcf](static/samples/variant.vcf)
+
 ## Usage
 
 ### Setting up your working environment for FINSURF
