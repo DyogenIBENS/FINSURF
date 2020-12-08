@@ -1,0 +1,9 @@
+name: finsurf
+channels:
+    - defaults
+dependencies:
+    - python=3.6
+    - pip:
+        - panda
+        - pytabix
+        - plotly
