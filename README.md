@@ -1,7 +1,7 @@
-# FINSURF 
+# **FINSURF** 
 
 
-    FINSURF (Functional Identification of Non-coding Sequences Using Random Forests) is a tool designed to analyse lists of sequences variants in the human genome. 
+## **FINSURF** (Functional Identification of Non-coding Sequences Using Random Forests) is a tool designed to analyse lists of sequences variants in the human genome. 
 
 It assigns a score to each variant, reflecting its functional importance and therefore its likelihood to disrupt the physiology of its carrier. FINSURF scores Single Nucleotide Variants (SNV), insertions and deletions. Among SNVs, transitions and transversions are treated separately. 
 Insertions are characterised by a score given to each base flanking the insertion point. Deletions are characterised by a score at every deleted base. FINSURF can (optionally) use a list of known or suspected disease genes, in order to restrict results to variants overlapping cis-regulatory elements linked to these genes. 
@@ -10,10 +10,10 @@ For a variant of interest, users can generate a graphical representation of "fea
 
 
 
- FINSURF is implemented as python3 scripts.
+FINSURF is implemented as python3 scripts.
 
 
-If you use FINSURF, please cite:
+*If you use FINSURF, please cite:*
 
 Moyon Lambert, ....
 
