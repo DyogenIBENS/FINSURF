@@ -1,7 +1,9 @@
 # **FINSURF** 
 
 
-## **FINSURF** (Functional Identification of Non-coding Sequences Using Random Forests) is a tool designed to analyse lists of sequences variants in the human genome. 
+## Introduction
+
+FINSURF (Functional Identification of Non-coding Sequences Using Random Forests) is a tool designed to analyse lists of sequences variants in the human genome. 
 
 It assigns a score to each variant, reflecting its functional importance and therefore its likelihood to disrupt the physiology of its carrier. FINSURF scores Single Nucleotide Variants (SNV), insertions and deletions. Among SNVs, transitions and transversions are treated separately. 
 Insertions are characterised by a score given to each base flanking the insertion point. Deletions are characterised by a score at every deleted base. FINSURF can (optionally) use a list of known or suspected disease genes, in order to restrict results to variants overlapping cis-regulatory elements linked to these genes. 
@@ -12,6 +14,22 @@ For a variant of interest, users can generate a graphical representation of "fea
 
 FINSURF is implemented as python3 scripts.
 
+## License
+
+This code may be freely distributed and modified under the terms of the GNU General Public License version 3 (GPL v3)
+and the CeCILL licence version 2 of the CNRS. These licences are contained in the files:
+
+1. [LICENSE-GPL.txt](LICENSE-GPL.txt) (or on [www.gnu.org](https://www.gnu.org/licenses/gpl-3.0-standalone.html))
+2. [LICENCE-CeCILL.txt](LICENCE-CeCILL.txt) (or on [www.cecill.info](https://cecill.info/licences/Licence_CeCILL_V2-en.html))
+
+Copyright for this code is held by the Dyogen (DYnamic and Organisation of GENomes) team
+of the Institut de Biologie de l'Ecole Normale Supérieure (IBENS) 46 rue d'Ulm Paris and the individual authors.
+
+- Copyright © 2020 IBENS/Dyogen : Lambert Moyon, Alexandra LOUIS, Thi Thuy Nga NGUYEN, Camille Berthelot and Hugues ROEST CROLLIUS
+
+## Contact
+
+Email finsurf {at} bio {dot} ens {dot} psl {dot} eu
 
 *If you use FINSURF, please cite:*
 
