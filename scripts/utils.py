@@ -5,6 +5,7 @@ import datetime
 from tempfile import mkstemp
 
 util_dir = os.path.dirname(os.path.abspath(__file__))
+#print(util_dir)
 util_dir = re.sub('/$','',util_dir)
 
 #host = "http://finsurf.biologie.ens.fr/"
@@ -60,9 +61,9 @@ def make_tmp_file(method_name, out_format, dir=''):
     """
     if dir == '':
         user = pwd.getpwuid(os.getuid())[0]
-        tmp_dir = util_dir + '/static/tmp/' + user
+        tmp_dir = util_dir + "/../res/"
         dt = datetime.datetime.now()
-        tmp_dir += '/' + dt.strftime('%Y') + '/' + dt.strftime('%m') + '/' + dt.strftime('%d') + '/'
+        #tmp_dir += '/' + dt.strftime('%Y') + '/' + dt.strftime('%m') + '/' + dt.strftime('%d') + '/'
         if not os.path.exists(tmp_dir):
             os.makedirs(tmp_dir)
             os.chmod(tmp_dir,0o755)

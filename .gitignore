@@ -1,3 +1,8 @@
 #ignore data files (too big for github) - users have to doxnload them from https://www.opendata.bio.ens.psl.eu/FINSURF/
 static/data
+
+#ignore __pycache__ specific to the user's computer
 scripts/__pycache__/
+
+#ignore test results files
+result_*.txt

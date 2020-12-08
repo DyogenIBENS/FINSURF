@@ -148,7 +148,7 @@ python scripts/finsurf.py -i data/samples/variant.vcf -s data/scores_all_chroms_
 ```
 
 The following output should be generated:
-`res/FINSURF_output_0.txt`.
+`FINSURF_examples/FINSURF_output_0.txt`.
 
 
 

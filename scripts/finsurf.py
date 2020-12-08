@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import argparse
 import os
 import re
@@ -300,7 +302,7 @@ def format_variant_info(df_regions):
 
     return variants_info
 
-def run_intersect(score, regulatory, vcf, chunksize):
+def run_intersect(score, regulatory, vcf, chunksize, output):
     reader = build_reader(vcf, chunksize=chunksize)
     
     # Check if there's error in reading vcf file
@@ -309,7 +311,7 @@ def run_intersect(score, regulatory, vcf, chunksize):
     
     flatten = lambda l: [item for sublist in l for item in sublist]
     
-    result_file = utils.make_tmp_file('result','txt','')	
+    result_file = utils.make_tmp_file('result','txt',output)	
     f = open(result_file,"w")	
     f.write("#" + "\t".join(utils.header) + "\n")
     all_results = []
@@ -396,12 +398,18 @@ def argparser():
                         help="Number of variants to read as a block from input file.",
                         required=False,
                         default=5000)
+    parser.add_argument("-od",
+                        "--output_dir",
+                        type=str,
+                        help="output directory",
+                        required=False,
+                        default="./res")
     return parser
 
 def main():
 	parser = argparser()
 	args = parser.parse_args()
-	result_file = run_intersect(args.score, args.gene, args.input, args.chunksize)
+	result_file = run_intersect(args.score, args.gene, args.input, args.chunksize, args.output_dir)
 
 	return_str = result_file.strip()
 	if args.inputgene and args.inputgene != '':
