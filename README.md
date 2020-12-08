@@ -46,8 +46,6 @@ Moyon Lambert, ....
   - [Usage](#usage)
     - [Setting up your working environment for FINSURF](#setting-up-your-working-environment-for-finsurf)
     - [Running FINSURF on example data](#running-finsurf-on-example-data)
-  - [Authors](#authors)
-  - [License](#license)
   - [References](#references)
 
 ## Installation
@@ -89,10 +87,11 @@ To install Miniconda3:
   
   You have to download the data files (80Go) that have to be intersect with your variants on <http://opendata.bio.ens.psl.eu/FINSURF/>
 
-  wget <http://opendata.bio.ens.psl.eu/FINSURF/finsurf_data.tar>
+  ```
+  wget http://opendata.bio.ens.psl.eu/FINSURF/finsurf_data.tar
 
   tar -xvf finsur_data.tar
-
+  ```
 
   the architecture of the finsurf directory should then be:
 - __FINSURF__
