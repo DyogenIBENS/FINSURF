@@ -89,7 +89,7 @@ def do_plot(variant_query, vartype, rename_cols_table, numFeat_path,  scaled_num
         variant_query += "-"
         variant_query += pos
     except Exception as e:
-        LOGGER.exception("Error while trying to read the input variant string")
+        LOGGER.exception("Error while trying to read the input variant string" + e )
         return ("Error while trying to read the input variant string",  None,  None,  None)
 
     renaming_table = pd.read_table(rename_cols_table,
@@ -206,19 +206,19 @@ def do_plot(variant_query, vartype, rename_cols_table, numFeat_path,  scaled_num
     fig.update_layout(title= "Variant " + variant_query.split("-")[0],  hovermode='x unified',  coloraxis_colorbar=dict(title="Feature Contribution", titlefont=dict(size=MEDIUM_SIZE), titleside='right', tickfont=dict(size=SMALL_SIZE), thicknessmode="pixels", thickness=15))
     
     #write to files
-    svg_file = utils.make_tmp_file('plot','','')	
-    jpeg_file = utils.make_tmp_file('plot','','')
-    png_file = utils.make_tmp_file('plot','','')
+    svg_file = utils.make_tmp_file('plot','svg','')	
+    jpeg_file = utils.make_tmp_file('plot','jpeg','')
+    png_file = utils.make_tmp_file('plot','png','')
     html_file = utils.make_tmp_file('plot','html','')
     plotly.offline.plot(fig, filename=svg_file, image_filename=svg_file,  image='svg', auto_open=False)
     plotly.offline.plot(fig, filename=jpeg_file, image_filename=jpeg_file, image='jpeg', auto_open=False)
     plotly.offline.plot(fig, filename=png_file, image_filename=png_file, image='png', auto_open=False)
     fig.write_html(html_file)
-    os.remove(svg_file)
-    os.remove(jpeg_file)
-    os.remove(png_file)
+    #os.remove(svg_file)
+    #s.remove(jpeg_file)
+    #os.remove(png_file)
     LOGGER.info("Plotting the figure.")
-    return (svg_file+".html", jpeg_file+".html", png_file+".html", html_file)
+    return (svg_file, jpeg_file, png_file, html_file)
 
 ###############################################################################
 # MAIN
