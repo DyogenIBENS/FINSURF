@@ -1,6 +1,6 @@
 # **FINSURF** 
 
-
+![alt text](./logo_finsurf.png?raw=true "FINSURF")
 ## Introduction
 
 FINSURF (Functional Identification of Non-coding Sequences Using Random Forests) is a tool designed to analyse lists of sequences variants in the human genome. 
