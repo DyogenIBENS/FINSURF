@@ -170,4 +170,4 @@ python scripts/plot_contribution.py --variant "chr8:21988220" --vartype "transit
 
 ```
 
-The script should generate the html file in res directory such [as this one](./data/samples/res_chr8_21988220_Genomizer.html)
+The script should generate the html file in res directory such [as this one](http://dyogenibens.github.io/FINSURF/res_chr8_21988220_Genomizer.html)
