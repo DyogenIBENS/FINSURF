@@ -151,8 +151,23 @@ scripts/finsurf.py -i static/data/samples/variant.vcf -s static/data/scores_all_
 The following output should be generated:
 `res/result_*.txt`.
 
+To run FINSURF on the 49 variants from Genomizer:
+```
+scripts/finsurf.py -i static/data/samples/Genomizer_49_var.vcf -s static/data/scores_all_chroms_1e-4.tsv.gz -g static/data/FINSURF_REGULATORY_REGIONS_GENES.bed.gz -ig static/data/samples/Genomizer_49_var_GENES.tsv
+
+```
+
+
 to plot the contributions for one specific variant:
 ```
 python scripts/plot_contribution.py --variant "chr1:12005" --vartype "transition" --rename_cols_table static/data/FINSURF_model_objects/rename_columns_model.tsv --numFeat_path static/data/NUM_FEATURES.tsv.gz --scaled_numFeat_path static/data/SCALED_NUM_FEATURES.tsv.gz --featCont_transition_path static/data/FULL_FC_transition.tsv.gz --featCont_transversion_path static/data/FULL_FC_transversion.tsv.gz
 ```
 
+to plot the contributions for one specific variant from Genomizer dataset:
+
+```
+python scripts/plot_contribution.py --variant "chr8:21988220" --vartype "transition" --rename_cols_table static/data/FINSURF_model_objects/rename_columns_model.tsv --numFeat_path static/data/NUM_FEATURES.tsv.gz --scaled_numFeat_path static/data/SCALED_NUM_FEATURES.tsv.gz --featCont_transition_path static/data/FULL_FC_transition.tsv.gz --featCont_transversion_path static/data/FULL_FC_transversion.tsv.gz
+
+```
+
+The script should generate the html file in res directory such [as this one](./data/samples/res_chr8_21988220_Genomizer.html)
