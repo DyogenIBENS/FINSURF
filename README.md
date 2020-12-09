@@ -79,7 +79,7 @@ To install Miniconda3:
 
   **Alternatively,** you can use conda directly :
   ```
-  conda env create -f envs/finsurf.yaml
+  conda env create -f env/finsurf.yaml
   ```
 
 - Download feature contributions and gene associations.
