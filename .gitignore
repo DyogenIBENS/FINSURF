@@ -7,3 +7,5 @@ scripts/__pycache__/
 #ignore test results files
 result_*.txt
 plot_*
+
+.DS_Store
