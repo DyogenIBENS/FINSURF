@@ -1,4 +1,3 @@
-# **FINSURF** 
 
 ![alt text](./logo_finsurf.png?raw=true "FINSURF")
 ## Introduction
