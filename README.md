@@ -152,7 +152,7 @@ The following output should be generated:
 
 To run FINSURF on the 49 variants from Genomizer:
 ```
-scripts/finsurf.py -i static/data/samples/Genomizer_49_var.vcf -s static/data/scores_all_chroms_1e-4.tsv.gz -g static/data/FINSURF_REGULATORY_REGIONS_GENES.bed.gz -ig static/data/samples/Genomizer_49_var_GENES.tsv
+python scripts/finsurf.py -i static/data/samples/Genomizer_49_var.vcf -s static/data/scores_all_chroms_1e-4.tsv.gz -g static/data/FINSURF_REGULATORY_REGIONS_GENES.bed.gz -ig static/data/samples/Genomizer_49_var_GENES.tsv
 
 ```
 
