@@ -143,7 +143,7 @@ Before using FINSURF on your data, we recommend running a test with our example 
 To run FINSURF on example data:
 
 ```
-scripts/finsurf.py -i static/data/samples/variant.vcf -s static/data/scores_all_chroms_1e-4.tsv.gz -g static/data/FINSURF_REGULATORY_REGIONS_GENES.bed.gz -ig static/data/samples/gene.txt
+python scripts/finsurf.py -i static/data/samples/variant.vcf -s static/data/scores_all_chroms_1e-4.tsv.gz -g static/data/FINSURF_REGULATORY_REGIONS_GENES.bed.gz -ig static/data/samples/gene.txt
 
 ```
 
