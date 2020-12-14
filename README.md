@@ -84,7 +84,7 @@ To install Miniconda3:
 
 - Download feature contributions and gene associations.
   
-  You have to download the data files (80Go) that have to be intersect with your variants on <http://opendata.bio.ens.psl.eu/FINSURF/>
+  You have to download the data files (4.8 Go for intersect and 82Go for features contribution) that have to be intersect with your variants on <http://opendata.bio.ens.psl.eu/FINSURF/>
 
   ```
   wget http://opendata.bio.ens.psl.eu/FINSURF/finsurf_data.tar
