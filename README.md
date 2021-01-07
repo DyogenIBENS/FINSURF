@@ -87,11 +87,11 @@ To install Miniconda3:
   You have to download the data files (4.8 Go for intersect and 82Go for features contribution) that have to be intersect with your variants on <https://www.opendata.bio.ens.psl.eu/finsurf/>
 
   ```
-  wget https://www.opendata.bio.ens.psl.eu/finsurf/finsurf_dataV1.tgz
+  wget --no-check-certificate https://www.opendata.bio.ens.psl.eu/finsurf/finsurf_dataV1.tgz
 
   tar -xzvf finsurf_dataV1.tgz
 
-  wget https://www.opendata.bio.ens.psl.eu/finsurf/plot_contribution_dataV1.tgz
+  wget --no-check-certificate https://www.opendata.bio.ens.psl.eu/finsurf/plot_contribution_dataV1.tgz
 
   tar -xzvf plot_contribution_dataV1.tgz
 
