@@ -1,4 +1,4 @@
-<p><img src="./logo_finsurf.png?raw=true" alt="alt text" title="FINSURF" /></p>
+<p><center><img src="./logo_finsurf.png?raw=true" title="FINSURF" /></center></p>
 
 <h2>Introduction</h2>
 
@@ -7,187 +7,18 @@
 <p>It assigns a score to each variant, reflecting its functional importance and therefore its likelihood to disrupt the physiology of its carrier. FINSURF scores Single Nucleotide Variants (SNV), insertions and deletions. Among SNVs, transitions and transversions are treated separately. 
 Insertions are characterised by a score given to each base flanking the insertion point. Deletions are characterised by a score at every deleted base. FINSURF can (optionally) use a list of known or suspected disease genes, in order to restrict results to variants overlapping cis-regulatory elements linked to these genes. </p>
 
+
+
+<h2>Priorizing user's variant</h2>
+
 <p>For a variant of interest, users can generate a graphical representation of "feature contributions », showing the relative contributions of genomic, functional or evolutionary information to its score.</p>
+<p> Code is available on the <a href="https://github.com/DyogenIBENS/FINSURF.git">master branch</a> of <a href="https://github.com/DyogenIBENS/FINSURF/">FINSURF github repository</a> </p>
 
 <p>FINSURF is implemented as python3 scripts.</p>
 
-<h2>License</h2>
 
-<p>This code may be freely distributed and modified under the terms of the GNU General Public License version 3 (GPL v3)
-and the CeCILL licence version 2 of the CNRS. These licences are contained in the files:</p>
+<h2>FINSURF model generation</h2>
 
-<ol>
-<li><a href="LICENSE-GPL.txt">LICENSE-GPL.txt</a> (or on <a href="https://www.gnu.org/licenses/gpl-3.0-standalone.html">www.gnu.org</a>)</li>
-<li><a href="LICENCE-CeCILL.txt">LICENCE-CeCILL.txt</a> (or on <a href="https://cecill.info/licences/Licence_CeCILL_V2-en.html">www.cecill.info</a>)</li>
-</ol>
+<p>The generation of finsurf model and the generation of figures from the manuscript can be done with the jupiter notebooks available on the <a href="https://github.com/DyogenIBENS/FINSURF/tree/finsurf-model-generation">finsurf-model-generation branch</a> of FINSURF github repository</p>
 
-<p>Copyright for this code is held by the <a href="http://www.ibens.ens.fr/?rubrique43">Dyogen</a> (DYnamic and Organisation of GENomes) team
-of the Institut de Biologie de l'Ecole Normale Supérieure (<a href="http://www.ibens.ens.fr">IBENS</a>) 46 rue d'Ulm Paris and the individual authors.</p>
 
-<ul>
-<li>Copyright © 2020 IBENS/Dyogen : <strong>Lambert MOYON</strong>, Alexandra LOUIS, Thi Thuy Nga NGUYEN, Camille Berthelot and Hugues ROEST CROLLIUS</li>
-</ul>
-
-<h2>Contact</h2>
-
-<p>Email finsurf {at} bio {dot} ens {dot} psl {dot} eu</p>
-
-<p><em>If you use FINSURF, please cite:</em></p>
-
-<p>Moyon Lambert, ....</p>
-
-<h1>Quick start</h1>
-
-<p><strong>Below is a quick start guide to using FINSURF</strong></p>
-
-<h2>Table of content</h2>
-
-<ul>
-<li><a href="#installation">Installation</a>
-<ul>
-<li><a href="#installing-conda">Installing conda</a></li>
-<li><a href="#installing-finsurf">Installing FINSURF</a></li>
-</ul></li>
-<li><a href="#usage">Usage</a>
-<ul>
-<li><a href="#setting-up-your-working-environment-for-finsurf">Setting up your working environment for FINSURF</a></li>
-<li><a href="#running-finsurf-on-example-data">Running FINSURF on example data</a></li>
-</ul></li>
-<li><a href="#references">References</a></li>
-</ul>
-
-<h2>Installation</h2>
-
-<h3>Installing conda</h3>
-
-<p>The Miniconda3 package management system manages all FINSURF dependencies, including python packages and other software.</p>
-
-<p>To install Miniconda3:</p>
-
-<ul>
-<li><p>Download Miniconda3 installer for your system <a href="https://docs.conda.io/en/latest/miniconda.html">here</a></p></li>
-<li><p>Run the installation script: <code>bash Miniconda3-latest-Linux-x86_64.sh</code> or <code>bash Miniconda3-latest-MacOSX-x86_64.sh</code>, and accept the defaults</p></li>
-<li><p>Open a new terminal, run <code>conda update conda</code> and press <code>y</code> to confirm updates</p></li>
-</ul>
-
-<h3>Installing FINSURF</h3>
-
-<ul>
-<li><p>Clone the repository and go to FINSURF root folder
-<code>
-git clone https://github.com/DyogenIBENS/FINSURF.git
-cd FINSURF
-</code></p></li>
-<li><p>Create the main conda environment.</p>
-
-<p>We recommend using <a href="https://github.com/mamba-org/mamba">Mamba</a> for a faster installation:
-<code>
-conda install -c conda-forge mamba
-mamba env create -f envs/finsurf.yaml
-</code></p>
-
-<p><strong>Alternatively,</strong> you can use conda directly :
-<code>
-conda env create -f env/finsurf.yaml
-</code></p></li>
-<li><p>Download feature contributions and gene associations.</p>
-
-<p>You have to download the data files (4.8 Go for intersect and 82Go for features contribution) that have to be intersect with your variants on <a href="https://www.opendata.bio.ens.psl.eu/finsurf/">https://www.opendata.bio.ens.psl.eu/finsurf/</a></p>
-
-<p>```
-wget --no-check-certificate https://www.opendata.bio.ens.psl.eu/finsurf/finsurf_dataV1.tgz</p>
-
-<p>tar -xzvf finsurf_dataV1.tgz</p>
-
-<p>wget --no-check-certificate https://www.opendata.bio.ens.psl.eu/finsurf/plot<em>contribution</em>dataV1.tgz</p>
-
-<p>tar -xzvf plot<em>contribution</em>dataV1.tgz</p>
-
-<p>```</p>
-
-<p>the architecture of the finsurf directory should then be:</p></li>
-<li><strong>FINSURF</strong>
-<ul>
-<li><a href="LICENSE.txt">LICENSE.txt</a></li>
-<li><a href="README.md">README.md</a></li>
-<li><strong>env</strong>
-<ul>
-<li><a href="env/finsurf.yaml">finsurf.yaml</a></li>
-</ul></li>
-<li><strong>scripts</strong>
-<ul>
-<li><a href="scripts/finsurf.py">finsurf.py</a></li>
-<li><a href="scripts/plot_contribution.py">plot_contribution.py</a></li>
-<li><a href="scripts/utils.py">utils.py</a></li>
-</ul></li>
-<li><strong>static</strong>
-<ul>
-<li><strong>data</strong></li>
-<li>2020-05-11_table_genes_FINSURF_regions.tsv</li>
-<li>FINSURF_REGULATORY_REGIONS_GENES.bed.gz</li>
-<li>FINSURF_REGULATORY_REGIONS_GENES.bed.gz.tbi</li>
-<li><strong>FINSURF_model_objects</strong>
-<ul>
-<li>full-model_woTargs_columns.txt</li>
-<li>rename_columns_model.tsv</li>
-</ul></li>
-<li>FULL_FC_transition.tsv.gz</li>
-<li>FULL_FC_transition.tsv.gz.tbi</li>
-<li>FULL_FC_transversion.tsv.gz</li>
-<li>FULL_FC_transversion.tsv.gz.tbi</li>
-<li>NUM_FEATURES.tsv.gz</li>
-<li>NUM_FEATURES.tsv.gz.tbi</li>
-<li>SCALED_NUM_FEATURES.tsv.gz</li>
-<li>SCALED_NUM_FEATURES.tsv.gz.tbi</li>
-<li>scores_all_chroms_1e-4.tsv.gz</li>
-<li>scores_all_chroms_1e-4.tsv.gz.tbi</li>
-<li><strong>samples</strong></li>
-<li><a href="static/samples/gene.txt">gene.txt</a></li>
-<li><a href="static/samples/variant.vcf">variant.vcf</a></li>
-</ul></li>
-</ul></li>
-</ul>
-
-<h2>Usage</h2>
-
-<h3>Setting up your working environment for FINSURF</h3>
-
-<p>Before any FINSURF run, you should:
- - go to FINSURF root folder,
- - activate the conda environment with <code>conda activate finsurf</code>.</p>
-
-<h3>Running FINSURF on example data</h3>
-
-<p>Before using FINSURF on your data, we recommend running a test with our example data to ensure that installation was successful and to get familiar with the pipeline, inputs and outputs.</p>
-
-<h4>Example 1: Simple FINSURF run</h4>
-
-<p>To run FINSURF on example data:</p>
-
-<p>```
-python scripts/finsurf.py -i static/data/samples/variant.vcf -s static/data/scores<em>all</em>chroms<em>1e-4.tsv.gz -g static/data/FINSURF</em>REGULATORY<em>REGIONS</em>GENES.bed.gz -ig static/data/samples/gene.txt</p>
-
-<p>```</p>
-
-<p>The following output should be generated:
-<code>res/result_*.txt</code>.</p>
-
-<p>To run FINSURF on the 49 variants from Genomizer:
-```
-python scripts/finsurf.py -i static/data/samples/Genomizer<em>49</em>var.vcf -s static/data/scores<em>all</em>chroms<em>1e-4.tsv.gz -g static/data/FINSURF</em>REGULATORY<em>REGIONS</em>GENES.bed.gz -ig static/data/samples/Genomizer<em>49</em>var_GENES.tsv</p>
-
-<p>```</p>
-
-<p>to plot the contributions for one specific variant:
-<code>
-python scripts/plot_contribution.py --variant "chr1:12005" --vartype "transition" --rename_cols_table static/data/FINSURF_model_objects/rename_columns_model.tsv --numFeat_path static/data/NUM_FEATURES.tsv.gz --scaled_numFeat_path static/data/SCALED_NUM_FEATURES.tsv.gz --featCont_transition_path static/data/FULL_FC_transition.tsv.gz --featCont_transversion_path static/data/FULL_FC_transversion.tsv.gz
-</code></p>
-
-<p>to plot the contributions for one specific variant from Genomizer dataset:</p>
-
-<p>```
-python scripts/plot<em>contribution.py --variant "chr8:21988220" --vartype "transition" --rename</em>cols<em>table static/data/FINSURF</em>model<em>objects/rename</em>columns<em>model.tsv --numFeat</em>path static/data/NUM<em>FEATURES.tsv.gz --scaled</em>numFeat<em>path static/data/SCALED</em>NUM<em>FEATURES.tsv.gz --featCont</em>transition<em>path static/data/FULL</em>FC<em>transition.tsv.gz --featCont</em>transversion<em>path static/data/FULL</em>FC_transversion.tsv.gz</p>
-
-<p>```</p>
-
-<p>The script should generate the html file in res directory such <a href="http://dyogenibens.github.io/FINSURF/res_chr8_21988220_Genomizer.html">as this one</a></p>
