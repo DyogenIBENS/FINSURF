@@ -1,0 +1,141 @@
+row_id: &id_strNoProcess
+    type: str
+    process: False
+
+allGenesNames.closest.upstream:
+    type: str
+    process:
+        allGenesNames.closest.upstream.name: &id_getName
+            use_col: False
+            distype: other
+            operation: getField
+            args:
+                field: name
+                field_sep: ','
+                kv_sep: ':'
+
+allGenesNames.closest.downstream:
+    type: str
+    process:
+        allGenesNames.closest.downstream.name: *id_getName
+
+protGenesNames.closest.upstream:
+    type: str
+    process:
+        protGenesNames.closest.upstream.name: *id_getName
+
+protGenesNames.closest.downstream:
+    type: str
+    process:
+        protGenesNames.closest.downstream.name: *id_getName
+
+biotypes.multi:
+    type: str
+    process:
+        biotypes.multi.names:
+            use_col: False
+            distype: other
+            replace_na: ' '
+            operation:
+                - accumulateField
+                - joinUnique
+            args:
+                - hit_separator: '|'
+                  field_sep: ','
+                  kv_sep: ':'
+                  field: 'name'
+                - sep: ';'
+
+        biotypes.best_biotype:
+            use_col: False
+            distype: other
+            replace_na: ' '
+            operation: 
+                - getBestHit
+                - getField
+            args:
+                - hit_separator: '|'
+                  method: biotype
+                  field_sep: ','
+                  kv_sep: ':'
+                - field_sep: ','
+                  kv_sep: ':'
+                  field: 'name'
+pegasus:
+    type: str
+    process:
+        pegasus.targets:
+            distype: other
+            replace_na: ' '
+            operation: 
+                - getField
+                - getField
+                - joinUnique
+            args:
+                - field: 'name'
+                  field_sep: '+'
+                  kv_sep: '='
+                - field: 'targets'
+                  field_sep: ','
+                  kv_sep: ':'
+                - sep: ';'
+
+fantom:
+    type: str
+    process:
+        fantom.targets: &id_enhTargs
+            distype: other
+            replace_na: ' '
+            operation:
+                - getField
+                - accumulateField
+                - joinUnique
+            args:
+                - field: 'name'
+                  field_sep: '+'
+                  kv_sep: '='
+                - hit_separator: '|'
+                  field_sep: ','
+                  kv_sep: ':'
+                  field: 'targets'
+                - sep: ';'
+
+genhancer.multi:
+    type: str
+    process:
+        genhancer.targets:
+            distype: discrete
+            replace_na: ' '
+            operation: 
+                - getBestHit
+                - getField
+                - accumulateField
+                - joinUnique
+            args:
+                - hit_separator: '||'
+                  field_sep: '+'
+                  kv_sep: '='
+                  method: score
+                - field: 'annots'
+                  field_sep: '+'
+                  kv_sep: '='
+                - hit_separator: '|'
+                  field_sep: ','
+                  kv_sep: ':'
+                  field: 'targets'
+                - sep: ';'
+
+focs_fantom:
+    type: str
+    process:
+        focs_fantom.targets: *id_enhTargs
+
+focs_groseq:
+    type: str
+    process:
+        focs_groseq.targets: *id_enhTargs
+
+focs_roadmap:
+    type: str
+    process:
+        focs_roadmap.targets: *id_enhTargs

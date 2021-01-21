@@ -1,0 +1,317 @@
+###############################################################################
+# CONFIGURATION FILE : annotVariants
+#
+# This configuration files offers the possibility to structure resource files
+# and set options for the annotations of variants with the 'annotVariants'
+# script.
+# 
+# The structure of the file is as follow:
+#   - Base sections structure variables into logical groups, such as `GENERAL`
+#     options, or specific groups of annotations such as `CONSERVATION`.
+#
+#   - Annotation-group sections have the following structure:
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+# A similar config file may be generated from the creation of numeric tables,
+# to map newly generated columns to groups, distribution types, etc.
+#
+#
+#
+#
+#
+###############################################################################
+
+
+[GENERAL]
+    datadir = /kingdoms/dyogen/workspace5/RegulationData/hg19/
+    ordercols = 'GENOME', 'CONSERVATION', 'CHROMATIN', 'ENHANCERS'
+
+    gene_mapping = /genome_annotations/gencode/v29lifthg19/gencode_ensemblIds_to_geneNames.tsv.gz
+
+    biotype_order = /genome_annotations/gencode/v29lifthg19/metadata_tables/finale_biotypes_ordered.tsv
+
+    # This requires a processing as follow:
+    # /!\ NOT TRUE ANYMORE : suffix of ENS-ID are now removed.
+    #
+    # MAP_GENE_IDS_DF = pd.read_table(MAPPING_GENE_IDS)
+    # stripped_ids_df = MAP_GENE_IDS_DF.copy()
+    # stripped_ids_df.gene_id =
+    # stripped_ids_df.gene_id.str.split('.',expand=True).iloc[:,0]
+    #
+    # MAP_TO_IDs = stripped_ids_df.set_index('gene_name').to_dict()['gene_id']
+    # MAP_TO_NAMES = pd.concat([MAP_GENE_IDS_DF,stripped_ids_df],axis=0).set_index('gene_id').to_dict()['gene_name']
+
+
+[CONSERVATION]
+    color = '#8700ff'  # purple
+    dir = /conservation/
+
+    [[PHYLOP]]
+        dir = /phyloP/
+
+        files = hg19.phyloP100way.bw, hg19.phyloP46way.vertebrates.bw, hg19.phyloP46way.placentalMammals.bw, hg19.phyloP46way.primates.bw, hg19.phyloP20way.bw
+
+        names = phyl100w, phyl46wVer, phyl46wPla, phyl46wPri, phyl20w
+
+        filetypes = BigWig, BigWig, BigWig, BigWig, BigWig
+
+        # This below can be evaluated with BigWigInfo
+        chrPrefix = true, true, true, true, true
+
+        [[[options]]]
+            all = mean_10,
+
+
+    [[PHASTCONS]]
+        dir = /phastCons/
+
+        files = hg19.phastCons100way.bw, hg19.phastCons46way.vertebrates.bw, hg19.phastCons46way.placentalMammals.bw, hg19.phastCons46way.primates.bw, hg19.phastCons20way.bw
+
+        names = phast100w, phast46wVer, phast46wPla, phast46wPri, phast20w
+
+        filetypes = BigWig, BigWig, BigWig, BigWig, BigWig
+
+        chrPrefix = true, true, true, true, true
+
+        [[[options]]]
+            all = mean_10,
+
+    [[GERP]]
+        dir = /gerp/
+
+        files = hg19_GERP_all_scores.bw, sorted_hg19_GERP_elements.bed.gz
+
+        names = gerpScore, gerpElem
+
+        filetypes = BigWig, Bed
+
+        chrPrefix = true, true
+
+        [[[colnames]]]
+            gerpElem = chrom, start, end, length, RS_score, pval
+        
+        [[[keepcols]]]
+            gerpElem = False, False, False, False, True, False
+
+
+        [[[options]]]
+            gerpScore = mean_10, 
+
+
+
+    [[OTHER]]
+        dir = '/'
+
+        files = /linsight/LINSIGHT.bw, /CDTS.bw
+
+        names = linsight, CDTS
+
+        filetypes = BigWig, BigWig
+
+        chrPrefix = True, True
+
+        [[[options]]]
+            linsight = mean_10,
+
+[GENOME]
+    color = '#30db88' # Green
+    dir = /genome_annotations/
+
+    [[GENCODE]]
+        dir = /gencode/v29lifthg19/
+
+        files = gencode_finale_table_AllGenes_NAMES.tsv.gz, gencode_finale_table_proteinCodingGenes_NAMES.tsv.gz, gencode_finale_table_biotypes_with_introns_NAMES.tsv.gz
+
+        names = allGenesNames, protGenesNames, biotypes
+
+        filetypes = Bed, Bed, Bed
+
+        chrPrefix = true, true, true
+
+        [[[colnames]]]
+            allGenesNames = chrom, start, end, name, strand, source
+            protGenesNames = chrom, start, end, name, strand, source
+            biotypes = chrom, start, end, name, source, strand, biotype
+
+        [[[keepcols]]]
+            allGenesNames = false, false, false, true, true, true
+            protGenesNames = false, false, false, true, true, true
+            biotypes = false, false, false, true, true, true, true
+
+        [[[options]]]
+            biotypes = noIntersect, getMultiHit
+            allGenesNames = noIntersect, getClosest
+            protGenesNames = noIntersect, getClosest
+
+    [[REGIONS]]
+        dir = '/'
+
+        files = /repeats/hg19_repeat_masker.bed.gz, /cytobands/hg19_cytoBand.bed.gz, /blacklist_regions/hg19.gap.bed.gz, /blacklist_regions/wgEncodeHg19ConsensusSignalArtifactRegions.bed.gz
+                
+        names = repeats, cytoband, gaps, blacklist
+
+        filetypes = Bed, Bed, Bed, Bed
+
+        chrPrefix = true, true, true, true
+
+        [[[colnames]]]
+            repeats = chrom, start, end, name
+            cytoband = chrom, start, end, name, source
+            gaps = chrom, start, end, namerepeats
+            blacklist = chrom, start, end, name, score, uk1
+        
+        [[[keepcols]]]
+            repeats = False, False, False, True
+            cytoband = False, False, False, True, False
+            gaps = False, False, False, True
+            blacklist = False, False, False, True, False, False
+
+
+
+    [[CG]]
+        dir = '/'
+
+        # Here files are spread into different folders.
+        files = /CG_positions/hg19.CG_dinucleotids.dna_rm.bw, /CpG_islands/hg19.cpg_islands.UCSC.20170531.tsv.gz
+
+        names = CGdinit, CpGisland
+
+        filetypes = BigWig, Bed
+
+        chrPrefix = true, true
+
+        [[[colnames]]]
+            CpGisland = chrom, start, end, name, length, cpgCount, gcCount, percCpG, percGC, obsExp
+        
+        [[[keepcols]]]
+            CpGisland = False, False, False, True, False, False, False, False, False, True
+
+        [[[options]]]
+            CGdinit = mean_1000,
+
+    
+[CHROMATIN]
+    color = '#E53030' # Red
+
+    dir = '/'
+
+    [[DNASE]]
+        dir = /dnase/UCSC/
+
+        files = wgEncodeRegDnaseClusteredV3_formatted.bed.gz,
+
+        names = dnaseClust,
+
+        filetypes = Bed,
+
+        chrPrefix = true, 
+
+        [[[colnames]]]
+            dnaseClust = chrom, start, end, score
+
+        [[[keepcols]]]
+            dnaseClust = false, false, false, true
+
+    [[STATES]]
+
+        dir = /chromatin_states/Roadmap_epigenomics/
+
+        files = sorted_hg19.roadmap.countStates_nool.tsv.gz, 
+
+        names = roadmapState,
+
+        filetypes = Bed,
+
+        chrPrefix = true,
+
+        [[[colnames]]]
+            roadmapState = chrom, start, end, promoter, transcribed, enhancer, ZNFRpts, heterochrom, repressed, quies
+
+        [[[keepcols]]]
+            roadmapState = false, false, false, true, true, true, true, true, true, true
+
+
+    [[HISTONES]]
+        dir = /histone_mods/roadmap_epigenomics/
+
+        files = /H3K4me1_medFC/H3K4me1_medFC.bw, /H3K4me3_medFC/H3K4me3_medFC.bw, /H3K27ac_medFC/H3K27ac_medFC.bw
+
+        names = H3K4me1_medFC, H3K4me3_medFC, H3K27ac_medFC
+
+        filetypes = BigWig, BigWig, BigWig
+
+        chrPrefix= true, true, true
+
+
+    [[TFBS]]
+        dir = /transcription_factors/
+
+        files = /ensembl75/ensembl75_tfbs_annots_uniq.bed.gz, /tfbsCons/wgTFBSConsSites_formatted.bed.gz, /tfbsClustered/wgEncodeRegTfbsClusteredV3_formatted.bed.gz
+
+        names = tfbsEnsembl, tfbsCons, tfbsClust
+
+        filetypes = Bed, Bed, Bed
+
+        chrPrefix = true, true, true
+
+        [[[colnames]]]
+            tfbsEnsembl = chrom, start, end, name, score, strand
+            tfbsCons = chrom, start, end, name, score, strand
+            tfbsClust = chrom, start, end, name, score, strand
+
+        [[[keepcols]]]
+            tfbsEnsembl = false, false, false, true, true, true
+            tfbsCons = false, false, false, true, true, true
+            tfbsClust = false, false, false, true, true, true
+
+
+
+[ENHANCERS]
+    color = '#1260e8'  # Blue
+    dir = /enhancers/
+
+    [[INTERACTIONS]]
+        dir = '/'
+
+        files = /DYOGEN/pegasus_enh.bed.gz, /FANTOM5/fantom5_enh.bed.gz, /GeneHancer/genehancer.bed.gz, /FOCS/fantom5_enh.bed.gz, /FOCS/groseq_enh.bed.gz, /FOCS/roadmap_enh.bed.gz
+
+        names = pegasus, fantom, genhancer, focs_fantom, focs_groseq, focs_roadmap
+
+        filetypes = Bed, Bed, Bed, Bed, Bed, Bed
+
+        chrPrefix = true, true, true, true, true, true
+
+        keyvalue_sep = '='
+        field_sep = '+'
+
+        [[[colnames]]]
+            pegasus = chrom, start, end, name
+            fantom = chrom, start, end, name
+            genhancer = chrom, start, end, name, score, strand, annots
+            focs_fantom = chrom, start, end, name
+            focs_groseq = chrom, start, end, name
+            focs_roadmap = chrom, start, end, name
+
+        [[[keepcols]]]
+            pegasus = false, false, false, true
+            fantom = false, false, false, true
+            genhancer = false, false, false, false, true, false, true
+            focs_fantom = false, false, false, true
+            focs_groseq = false, false, false, true
+            focs_roadmap = false, false, false, true
+
+        [[[options]]]
+            genhancer = noIntersect, getMultiHit_||
+
+
+#    [[TARGETS]]
+#    This part will be dedicated to pre-computed scores of target sharing.

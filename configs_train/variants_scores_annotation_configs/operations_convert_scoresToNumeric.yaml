@@ -1,0 +1,181 @@
+chrom: &id_strNoProcess
+    type: str
+    process: False
+
+start: &id_intNoProcess
+    type: int
+    process: False
+
+end: *id_intNoProcess
+
+id: *id_strNoProcess
+
+ref: *id_strNoProcess
+
+alt: *id_strNoProcess
+
+row_id: *id_strNoProcess
+
+CADD:
+    type: str
+    process:
+        CADD.score:
+            use_col: False
+            distype: continuous
+            replace_na: ''
+            operation:
+                - getBestHit
+                - getField
+            args:
+                - hit_separator: '|'
+                  field_sep: ','
+                  kv_sep: ':'
+                  method: 'score' 
+                - field: 'score'
+                  field_sep: ','
+                  kv_sep: ':'
+
+
+FATHMM_MKL:
+    type: str
+    process:
+        FATHMM_MKL.score:
+            use_col: False
+            distype: continuous
+            replace_na: ''
+            operation:
+                - getBestHit
+                - getField
+            args:
+                - hit_separator: '|'
+                  field_sep: ','
+                  kv_sep: ':'
+                  method: 'field_score_nc' 
+                - field: 'score_nc'
+                  field_sep: ','
+                  kv_sep: ':'
+
+NCBoost:
+    type: str
+    process:
+        NCBoost.score:
+            use_col: False
+            distype: continuous
+            replace_na: ''
+            operation:
+                - getBestHit
+                - getField
+            args:
+                - hit_separator: '|'
+                  field_sep: ','
+                  kv_sep: ':'
+                  method: 'score'
+                - field_sep: ','
+                  kv_sep: ':'
+                  field: 'score'
+
+ReMM:
+    type: float
+    process:
+        ReMM.score:
+            use_col: False
+            distype: continuous
+            operation: keepAs
+
+b_score:
+    type: float
+    process:
+        b_score:
+            use_col: False
+            distype: continuous
+            operation: keepAs
+
+eigen:
+    type: str
+    process:
+        eigen.score:
+            use_col: False
+            distype: continuous
+            replace_na: ''
+            operation:
+                - getBestHit
+                - getField
+            args:
+                - hit_separator: '|'
+                  field_sep: ','
+                  kv_sep: ':'
+                  method: 'score'
+                - field: 'score'
+                  field_sep: ','
+                  kv_sep: ':'
+        eigen.PC_score:
+            use_col: False
+            distype: continuous
+            replace_na: ''
+            operation:
+                - getBestHit
+                - getField
+            args:
+                - hit_separator: '|'
+                  field_sep: ','
+                  kv_sep: ':'
+                  method: 'field_PC_score'
+                - field: 'PC_score'
+                  field_sep: ','
+                  kv_sep: ':'
+
+fitcons:
+    type: float
+    process:
+        fitcons:
+            use_col: False
+            distype: continuous
+            operation: keepAs
+
+
+linsight:
+    type: float
+    process:
+        linsight:
+            use_col: False
+            distype: continuous
+            operation: keepAs
+
+fire:
+    type: str
+    process:
+        fire.score:
+            use_col: False
+            distype: continuous
+            replace_na: ''
+            operation:
+                - getBestHit
+                - getField
+            args:
+                - hit_separator: '|'
+                  field_sep: ','
+                  kv_sep: ':'
+                  method: 'field_PC_score'
+                - field: 'score'
+                  field_sep: ','
+                  kv_sep: ':'
+
+
+gnomadAF:
+    type: str
+    process:
+        gnomadAF.AF:
+            use_cole: False
+            distype: continuous
+            replace_na: ''
+            operation:
+                - getBestHit
+                - getField
+            args:
+                - hit_separator: '|'
+                  field_sep: ','
+                  kv_sep: ':'
+                  method: 'field_AF'
+                - field: 'AF'
+                  field_sep: ','
+                  kv_sep: ':'

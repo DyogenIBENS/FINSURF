@@ -1,0 +1,67 @@
+CADD:
+  altspec: true
+  chr_prefixed: false
+  columns: [chrom, pos, ref, alt, score, phred]
+  filetype: tsv
+  name: CADD
+  path: /kingdoms/dyogen/workspace5/RegulationData/hg19/scores_variants/CADD/whole_genome_SNVs.tsv.gz
+  usecols: [false, false, false, false, true, false]
+  zerobased: false
+FATHMM_MKL:
+  altspec: true
+  chr_prefixed: false
+  columns: [chrom, start, end, ref, alt, score_nc, class1, score_c, class2]
+  filetype: bed
+  name: FATHMM_MKL
+  path: /kingdoms/dyogen/workspace5/RegulationData/hg19/scores_variants/FATHMM-MKL/fathmm-MKL_Current_zerobased.tab.gz
+  usecols: [false, false, false, false, false, true, false, false, false]
+  zerobased: true
+NCBoost:
+  altspec: false
+  chr_prefixed: false
+  columns: [chrom, start, end, region, closest_gene, score, rank]
+  filetype: bed
+  name: NCBoost
+  path: /kingdoms/dyogen/workspace5/RegulationData/hg19/scores_variants/ncboost/raw/ncboost_score_hg19_v20190108.bed.gz
+  usecols: [false, false, false, false, false, true, false]
+  zerobased: true
+ReMM: {altspec: null, chr_prefixed: true, columns: null, filetype: bigWig, name: ReMM,
+  path: /kingdoms/dyogen/workspace5/RegulationData/hg19/scores_variants/ReMM/ReMM.v0.3.1.bw,
+  usecols: null, zerobased: null}
+b_score: {altspec: null, chr_prefixed: true, columns: null, filetype: bigWig, name: b_score,
+  path: /kingdoms/dyogen/workspace5/RegulationData/hg19/scores_variants/McVicker_b-score/hg19_b-score_nool.bw,
+  usecols: null, zerobased: null}
+eigen:
+  altspec: true
+  chr_prefixed: false
+  columns: [chrom, start, end, ref, alt, score, PC_score]
+  filetype: bed
+  name: eigen
+  path: /kingdoms/dyogen/workspace5/RegulationData/hg19/scores_variants/EIGEN/eigen_full.bed.gz
+  usecols: [false, false, false, false, false, true, true]
+  zerobased: true
+fitcons: {altspec: null, chr_prefixed: true, columns: null, filetype: bigWig, name: fitcons,
+  path: /kingdoms/dyogen/workspace5/RegulationData/hg19/scores_variants/fitcons/fc-i6-0.bw,
+  zerobased: null}
+linsight: {altspec: null, chr_prefixed: true, columns: null, filetype: bigWig, name: linsight,
+  path: /kingdoms/dyogen/workspace5/RegulationData/hg19/scores_variants/linsight/LINSIGHT.bw,
+  usecols: null, zerobased: null}
+fire:
+  altspec: true
+  chr_prefixed: false
+  columns: [chrom, start, end, ref, alt, score]
+  filetype: bed
+  name: fire
+  path: /kingdoms/dyogen/workspace5/RegulationData/hg19/scores_variants/FIRE/FIRE.bed.gz
+  usecols: [false, false, false, false, false, true]
+  zerobased: true
+gnomadAF:
+    altspec: true
+    chr_prefixed: false
+    columns: ['chrom','start','end','ref','alt','AF','AF_popmax', 'AF_male', 'AF_female', 'AF_raw','AF_afr','AF_sas','AF_amr','AF_eas','AF_nfe','AF_fin','AF_asj','AF_oth','non_topmed_AF_popmax','non_neuro_AF_popmax','non_cancer_popmax','controls_AF_pomax']
+    filetype: bed
+    name: gnomadAF
+    path: /kingdoms/dyogen/workspace5/RegulationData/hg19/scores_variants/gnomAD/hg19_gnomad211_genome_sorted.bed.gz
+    usecols: [false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+    zerobased: true
+

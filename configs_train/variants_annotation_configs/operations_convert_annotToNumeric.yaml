@@ -1,0 +1,606 @@
+# ----------------------------------------------------------------------------- #
+#
+# This is the configuration file for the annotToNum script.
+#
+# This script will produce two files from an "annotation" table:
+# * a "numeric" table, containing columns converted according to the
+#   instructions defined here.
+# * a "parameters" files, associating each new column in the "numeric table"
+#   with a set of parameters, such as its distribution type, its color for plots,
+#   etc.
+#
+# The annotToNum script will apply a set of operations defined here for each 
+# column in an annotation table created with `annotVar`.
+#
+# The column names should match the one from the annotation table ; any missing
+# instruction will result in the column being dropped in the "numeric table".
+#
+# The backbone of a "parameters" block for a column is as follow:
+#
+# ```
+# name_col:
+#   type: <type>
+#   process: <process>
+# ```
+#
+# * <name_col> should match a column name in the annotation table.
+# * the type is a string, indicating how to interpret the values in the column.
+#   (can be 'str', 'int', 'float')
+# * the process block can be set to False (the column will be kept 'as is' in
+#   the "numeric table", but won't be found in the yaml "parameters" files.
+#
+# The backbone of a "process" block is as follow:
+#
+# ```
+# new_name_col:
+#     use_col: <bool>
+#     distype: <distype>
+#     replace_na: <value>
+#     operation: <operation>
+#     args: <args>
+# ```
+#
+# * <new_name_col> can be the same name as the original name, but that will
+#   **REPLACE** the values.
+#
+# * use_col: <bool> to indicate whether the column and its information should
+#   be included in the yaml "parameters file".
+#
+# * distype: can be "continuous", "discrete", "binary", or "other" ; it can be
+#   used for the plots.
+#
+# * operation: can be a single name or a list of names. These operations are
+#   defined as names mapping to functions in the `annotToNum` script.
+#
+# * args: can be defined as a list, or a list of lists (if multiple operations
+#   are chained in the "operation" field.
+#
+# We study the example below:
+#
+# ```
+# genhancer.multi:
+#     type: str
+#     process:
+#         genhancer.bestScore:
+#             use_col: False
+#             distype: continuous
+#             replace_na: 0
+#             operation:
+#                 - getBestHit
+#                 - getField
+#             args:
+#                 - hit_separator: '||'
+#                   field_sep: '+'
+#                   kv_sep: '='
+#                   method: score
+#                 - field: 'score'
+#                   field_sep: '+'
+#                   kv_sep: '='
+# ```
+#
+# We can see that:
+#   * the original column is named "genhancer.multi".
+#   * it will contain string values
+#   * there's one processing operation to be applied.
+#       * this processing results will be assigned to the "genhancer.bestScore"
+#         column. This also means that the "genhancer.multi" column **won't be
+#         kept as is".
+#       * the distribution type will be "continuous" values ; this will appear
+#         in the yaml parameters file.
+#       * NA values are replaced by 0.
+#       * the operation to be applied on the column is composed of two
+#         sub-operations :
+#           * getBestHit
+#           * getField
+#       * each of these operations has an associated set of arguments. For
+#       instance for the "getBestHit" operation, the associated arguments are:
+#           hit_separator: '||'
+#           field_sep: '+'
+#           kv_sep: '='
+#           method: score
+# 
+# ----------------------------------------------------------------------------- #
+
+chrom: &id_strNoProcess
+    type: str
+    process: False
+
+start: &id_intNoProcess
+    type: int
+    process: False
+
+end: *id_intNoProcess
+
+id: *id_strNoProcess
+
+ref: *id_strNoProcess
+
+alt: *id_strNoProcess
+
+row_id: *id_strNoProcess
+
+vartype: *id_strNoProcess
+
+vartrans:
+    type: str
+    process:
+        vartrans:
+            use_col: False
+            distype: other
+            operation: keepAs
+
+        vartrans.ord:
+            use_col: True
+            replace_na: ''
+            distype: discrete
+            operation: transOrd
+
+ucsc_gb: *id_strNoProcess
+
+seqcontext: *id_strNoProcess
+
+allGenesNames.closest.upstream:
+    type: str
+    process:
+        allGenesNames.closest.upstream: &id_keepAs
+            use_col: False
+            distype: other
+            operation: keepAs
+
+        allGenesNames.closest.upstream.dist: &id_getDist
+            use_col: False
+            distype: continuous
+            operation: getField
+            args:
+                field: distance
+                field_sep: ','
+                kv_sep: ':'
+
+allGenesNames.closest.downstream:
+    type: str
+    process:
+        allGenesNames.closest.downstream: *id_keepAs
+        allGenesNames.closest.downstream.dist: *id_getDist
+
+protGenesNames.closest.upstream:
+    type: str
+    process:
+        protGenesNames.closest.upstream: *id_keepAs
+        protGenesNames.closest.upstream.dist: *id_getDist
+
+protGenesNames.closest.downstream:
+    type: str
+    process:
+        protGenesNames.closest.downstream: *id_keepAs
+        protGenesNames.closest.downstream.dist: *id_getDist
+
+biotypes.multi:
+    type: str
+    process:
+        biotypes.multi:
+            use_col: False
+            distype: other
+            replace_na: 'biotype:intergenic'
+            operation: keepAs
+
+        biotypes.best_biotype:
+            use_col: False
+            distype: other
+            replace_na: 'biotype:intergenic'
+            operation: getBestHit
+            args:
+                hit_separator: '|'
+                method: biotype
+                field_sep: ','
+                kv_sep: ':'
+
+cytoband: *id_strNoProcess
+
+gaps: *id_strNoProcess
+
+blacklist: *id_strNoProcess
+
+CGdinit:
+    type: float
+    process:
+        CGdinit:
+            use_col: True
+            distype: binary
+            operation: keepAs
+
+CGdinit.mean.1000:
+    type: float
+    process:
+        CGdinit.mean.1000:
+            use_col: True
+            distype: continuous
+            operation: keepAs
+
+CpGisland:
+    type: str
+    process:
+        CpGisland:
+            use_col: True
+            distype: binary
+            operation: hasElem
+
+phyl100w:
+    type: float
+    process:
+        phyl100w: &id_consKeepAs
+            use_col: True
+            distype: continuous
+            operation: keepAs
+
+phyl100w.mean.10: 
+    type: float
+    process:
+        phyl100w.mean.10: *id_consKeepAs
+
+phyl46wVer: 
+    type: float
+    process:
+        phyl46wVer: *id_consKeepAs
+
+phyl46wVer.mean.10: 
+    type: float
+    process:
+        phyl46wVer.mean.10: *id_consKeepAs
+
+phyl46wPla: 
+    type: float
+    process:
+        phyl46wPla: *id_consKeepAs
+
+phyl46wPla.mean.10: 
+    type: float
+    process:
+        phyl46wPla.mean.10: *id_consKeepAs
+
+phyl46wPri: 
+    type: float
+    process:
+        phyl46wPri: *id_consKeepAs
+
+phyl46wPri.mean.10: 
+    type: float
+    process:
+        phyl46wPri.mean.10: *id_consKeepAs
+
+phyl20w: 
+    type: float
+    process:
+        phyl20w: *id_consKeepAs
+
+phyl20w.mean.10: 
+    type: float
+    process:
+        phyl20w.mean.10: *id_consKeepAs
+
+phast100w:
+    type: float
+    process:
+        phast100w: *id_consKeepAs
+        
+phast100w.mean.10: 
+    type: float
+    process:
+        phast100w.mean.10: *id_consKeepAs
+
+phast46wVer: 
+    type: float
+    process:
+        phast46wVer: *id_consKeepAs
+
+phast46wVer.mean.10: 
+    type: float
+    process:
+        phast46wVer.mean.10: *id_consKeepAs
+
+phast46wPla: 
+    type: float
+    process:
+        phast46wPla: *id_consKeepAs
+
+phast46wPla.mean.10: 
+    type: float
+    process:
+        phast46wPla.mean.10: *id_consKeepAs
+
+phast46wPri: 
+    type: float
+    process:
+        phast46wPri: *id_consKeepAs
+
+phast46wPri.mean.10: 
+    type: float
+    process:
+        phast46wPri.mean.10: *id_consKeepAs
+
+phast20w: 
+    type: float
+    process:
+        phast20w: *id_consKeepAs
+
+phast20w.mean.10: 
+    type: float
+    process:
+        phast20w.mean.10: *id_consKeepAs
+
+gerpScore: 
+    type: float
+    process:
+        gerpScore: *id_consKeepAs
+
+gerpScore.mean.10: 
+    type: float
+    process:
+        gerpScore.mean.10: *id_consKeepAs
+
+gerpElem: 
+    type: str
+    process:
+        gerpElem:
+            replace_na: 0
+            distype: binary
+            operation: hasElem
+
+linsight: 
+    type: float
+    process:
+        linsight: *id_consKeepAs
+
+linsight.mean.10: 
+    type: float
+    process:
+        linsight.mean.10: *id_consKeepAs
+
+CDTS: 
+    type: float
+    process:
+        CDTS: *id_consKeepAs
+
+dnaseClust: 
+    type: str
+    process:
+        dnaseClust:
+            use_col: True
+            distype: continuous
+            replace_na: 0
+            operation: getField
+            args:
+                field: 'score'
+                field_sep: ','
+                kv_sep: ':'
+
+roadmapState:
+    type: str
+    process:
+        roadmapState:
+            use_col: True
+            distype: discrete
+            replace_na: 0
+            operation: explodeKeyValues
+            args:
+                expected_cols: ['promoter', 'transcribed',
+                                'enhancer', 'ZNFRpts',
+                                'heterochrom', 'repressed',
+                                'quies']
+                field_sep: ','
+                kv_sep: ':'
+
+H3K4me1_medFC:
+    type: float
+    process:
+        H3K4me1_medFC: *id_consKeepAs
+
+H3K4me3_medFC:
+    type: float
+    process:
+        H3K4me3_medFC: *id_consKeepAs
+
+H3K27ac_medFC:
+    type: float
+    process:
+        H3K27ac_medFC: *id_consKeepAs
+
+tfbsEnsembl:
+    type: str
+    process:
+        tfbsEnsembl.count: &id_tfCountMulti
+            use_col: True
+            distype: discrete
+            replace_na: 0
+            operation: countMultiHit
+            args:
+                hit_separator: '|'
+
+        tfbsEnsembl.scoremax: &id_tfScoreMax
+            use_col: True
+            distype: continuous
+            replace_na: 0
+            operation:
+                - getBestHit
+                - getField
+            args:
+                - hit_separator: '|'
+                  field_sep: ','
+                  kv_sep: ':'
+                  method: score
+                - field_sep: ','
+                  kv_sep: ':'
+                  field: 'score'
+
+tfbsCons:
+    type: str
+    process:
+        tfbsCons.count: *id_tfCountMulti
+        tfbsCons.scoremax: *id_tfScoreMax
+
+tfbsClust:
+    type: str
+    process:
+        tfbsClust.count: *id_tfCountMulti
+        tfbsClust.scoremax: *id_tfScoreMax
+
+pegasus:
+    type: str
+    process:
+        pegasus.score:
+            use_col: True
+            distype: continuous
+            replace_na: 0
+            operation:
+                - getField
+                - getField
+            args:
+                - field: 'name'
+                  field_sep: '+'
+                  kv_sep: '='
+                - field: 'score'
+                  field_sep: ','
+                  kv_sep: ':'
+
+        pegasus.count_targs:
+            use_col: True
+            distype: continuous
+            replace_na: 0
+            operation: 
+                - getField
+                - getField
+                - countUnique
+            args:
+                - field: 'name'
+                  field_sep: '+'
+                  kv_sep: '='
+                - field: 'targets'
+                  field_sep: ','
+                  kv_sep: ':'
+                - sep: ';'
+
+fantom:
+    type: str
+    process:
+        fantom.bestScore: &id_enhBestScore
+            use_col: True
+            distype: continuous
+            replace_na: 0
+            operation:
+                - getField
+                - getBestHit
+                - getField
+            args:
+                - field: 'name'
+                  field_sep: '+'
+                  kv_sep: '='
+                - hit_separator: '|'
+                  field_sep: ','
+                  kv_sep: ':'
+                  method: score
+                - field: 'score'
+                  field_sep: ','
+                  kv_sep: ':'
+
+        fantom.count_targs: &id_enhCountTargs
+            use_col: True
+            distype: discrete
+            replace_na: 0
+            operation:
+                - getField
+                - accumulateField
+                - countUnique
+            args:
+                - field: 'name'
+                  field_sep: '+'
+                  kv_sep: '='
+                - hit_separator: '|'
+                  field_sep: ','
+                  kv_sep: ':'
+                  field: 'targets'
+                - sep: ';'
+
+genhancer.multi:
+    type: str
+    process:
+        genhancer.bestScore:
+            use_col: True
+            distype: continuous
+            replace_na: 0
+            operation:
+                - getBestHit
+                - getField
+            args:
+                - hit_separator: '||'
+                  field_sep: '+'
+                  kv_sep: '='
+                  method: score
+                - field: 'score'
+                  field_sep: '+'
+                  kv_sep: '='
+
+        genhancer.count_targs:
+            use_col: True
+            distype: discrete
+            replace_na: 0
+            operation: 
+                - getBestHit
+                - getField
+                - accumulateField
+                - countUnique
+            args:
+                - hit_separator: '||'
+                  field_sep: '+'
+                  kv_sep: '='
+                  method: score
+                - field: 'annots'
+                  field_sep: '+'
+                  kv_sep: '='
+                - hit_separator: '|'
+                  field_sep: ','
+                  kv_sep: ':'
+                  field: 'targets'
+                - sep: ';'
+
+        genhancer.bestScore_targs:
+            use_col: True
+            distype: continuous
+            replace_na: 0
+            operation: 
+                - getBestHit
+                - getField
+                - getBestHit
+                - getField
+            args:
+                - hit_separator: '||'
+                  field_sep: '+'
+                  kv_sep: '='
+                  method: score
+                - field: 'annots'
+                  field_sep: '+'
+                  kv_sep: '='
+                - hit_separator: '|'
+                  field_sep: ','
+                  kv_sep: ':'
+                  method: score
+                - field: 'score'
+                  field_sep: ','
+                  kv_sep: ':'
+
+focs_fantom:
+    type: str
+    process:
+        focs_fantom.maxScore: *id_enhBestScore
+        focs_fantom.count_targs: *id_enhCountTargs
+
+focs_groseq:
+    type: str
+    process:
+        focs_groseq.maxScore: *id_enhBestScore
+        focs_groseq.count_targs: *id_enhCountTargs
+
+focs_roadmap:
+    type: str
+    process:
+        focs_roadmap.maxScore: *id_enhBestScore
+        focs_roadmap.count_targs: *id_enhCountTargs
+
