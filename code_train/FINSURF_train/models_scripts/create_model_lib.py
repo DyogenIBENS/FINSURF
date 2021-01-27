@@ -14,10 +14,82 @@ from sklearn.externals import joblib
 from copy import deepcopy
 
 import sklearn.model_selection
+import sklearn_pandas
 
 import imblearn
 
 import datetime
+
+
+def build_mapper_features_preprocessing(cat_features, X, reduced_num_cols, cols_to_drop = []):
+    """ Create a preprocessing object from hard-coded lists of features.
+    
+    Here are hardcoded lists of features that are grouped according to the method for NaN replacement.
+    
+    For instance a "median_feats" list groups all feature names from my annotations tables that should see their NaN values being replaced
+    by the median value from a subset of rows.
+    
+    These list are build from the <cat_features> and <X> variables.
+    
+    Args:
+        cat_features (dict) : dict that maps lists of features to categories, such as "CONSERVATION"
+        X (pandas.DataFrame) : table of numeric features of annotated variants
+        reduced_num_cols (list) : subset of the X columns to be actually used for classification. Only features in this list will be kept.
+        cols_to_drop (list) : used to filter out features.
+
+    Returns: 
+        sklearn_pandas.DataFrameMapper
+
+    """
+    list_features_preprocessing = []
+
+    # "Default to median" features.
+    median_feats = [feat for feat in cat_features['CONSERVATION']
+                    if ((feat in reduced_num_cols) and (feat!='gerpElem'))
+                   ] + \
+                   ['H3K4me1_medFC','H3K4me3_medFC','H3K27ac_medFC'] + \
+                   ['vartrans.ord']
+    
+    # Remove unwanted features.
+    median_feats = set([feat for feat in median_feats
+                        if ((feat in reduced_num_cols) & (feat not in cols_to_drop))
+                       ])
+
+    median_feats_strat = sklearn_pandas.gen_features(columns = [[f] for f in median_feats],
+                                                     classes = [{'class':sklearn.impute.SimpleImputer,
+                                                                 'strategy':'median'}]
+                                                     )
+
+    # "Default to 0" features.
+    zeros_feats = set(['gerpElem','CpGisland','dnaseClust','CGdinit',
+                       'ratio_shared_targets','targets_associations'] + \
+                      list(X.head().filter(regex='tfbs.').columns.values) + \
+                      list(cat_features['ENHANCERS']) +\
+                      list(X.head().filter(regex='^roadmap.').columns.values)
+                     )
+
+    zeros_feats = [feat for feat in zeros_feats
+                   if ((feat in reduced_num_cols) & (feat not in cols_to_drop))
+                  ]
+        
+    zeros_feats_strat = sklearn_pandas.gen_features(columns = [[f] for f in zeros_feats],
+                                                    classes = [{'class':sklearn.impute.SimpleImputer,
+                                                                'strategy':'constant',
+                                                                'fill_value':0}]
+                                                   )
+
+    # Reorder the list of feature preprocessing according to the original order.
+    list_features_preprocessing = sorted(median_feats_strat+zeros_feats_strat,
+                                         key=lambda v:
+                                         reduced_num_cols.index(v[0][0]))
+
+    print("Columns without assigned Impute strategy (will be lost if no strategy set):")
+    display([c for c in reduced_num_cols if c not in [v[0][0] for v in list_features_preprocessing]])
+            
+    mapper = sklearn_pandas.DataFrameMapper(list_features_preprocessing, #default=None,
+                                             df_out=True)
+    
+    return mapper
 
 
 def export_kfolds_results(kfold_results, path):
