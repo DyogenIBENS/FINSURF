@@ -34,139 +34,36 @@ Email finsurf {at} bio {dot} ens {dot} psl {dot} eu
 
 Moyon Lambert, ....
 
-# Quick start
 
-**Below is a quick start guide to using FINSURF**
+# Content
 
-## Table of content
-  - [Installation](#installation)
-    - [Installing conda](#installing-conda)
-    - [Installing FINSURF](#installing-finsurf)
-  - [Usage](#usage)
-    - [Setting up your working environment for FINSURF](#setting-up-your-working-environment-for-finsurf)
-    - [Running FINSURF on example data](#running-finsurf-on-example-data)
-  - [References](#references)
+This branch contains all the code and notebooks related to the training, evaluation, and application
+of the FINSURF-adjusted prediction model.
 
-## Installation
+In `code_train/FINSURF_train/` you will find Python scripts and libraries that were developped in the
+context of this project.
+For illustration, configuration files required by some of these scripts are present in the
+`configs_train` directory.
 
-### Installing conda
+In `notebooks_train` you will find a set of Jupyter notebooks which show some of the experiments and
+associated visualization.
+Actually most of them contain figures that are presented in the papers :
 
-The Miniconda3 package management system manages all FINSURF dependencies, including python packages and other software.
+- `FINSURF_model-creation_and_cross-performance.ipynb` contains the figures related to the training of
+  FINSURF models following different sampling-schemes for negative controls, and how this sampling
+  affect cross-performance of the models (supplementary figure 1 and main figure 2a,b)
 
-To install Miniconda3:
+- `FINSURF-adjusted_comparison-methods_kfold_and_genomiser-vs-clinvar.ipynb` contains the figures
+  related to the evaluation of FINSURF-adjusted model on independent datasets of variants, as
+  presented in main figure 2c and supplementary figure 2
 
-- Download Miniconda3 installer for your system [here](https://docs.conda.io/en/latest/miniconda.html)
+- `models_analysis_HGMD_feature-contribs-profiles-training-set.ipynb` contains the exploration of the
+  positive controls from the training-set of FINSURF-adjusted using the feature-contribution method,
+  that allowed to identified different functional profiles of regulatory variants, as presented in
+  main figure 03 and in supplementary figure 4
 
-- Run the installation script: `bash Miniconda3-latest-Linux-x86_64.sh` or `bash Miniconda3-latest-MacOSX-x86_64.sh`, and accept the defaults
-
-- Open a new terminal, run `conda update conda` and press `y` to confirm updates
-
-### Installing FINSURF
-
-- Clone the repository and go to FINSURF root folder
-  ```
-  git clone https://github.com/DyogenIBENS/FINSURF.git
-  cd FINSURF
-  ```
-
-- Create the main conda environment.
-
-  We recommend using [Mamba](https://github.com/mamba-org/mamba) for a faster installation:
-  ```
-  conda install -c conda-forge mamba
-  mamba env create -f envs/finsurf.yaml
-  ```
-
-  **Alternatively,** you can use conda directly :
-  ```
-  conda env create -f env/finsurf.yaml
-  ```
-
-- Download feature contributions and gene associations.
-  
-  You have to download the data files (80Go) that have to be intersect with your variants on <http://opendata.bio.ens.psl.eu/FINSURF/>
-
-  ```
-  wget http://opendata.bio.ens.psl.eu/FINSURF/finsurf_data.tar
-
-  tar -xvf finsur_data.tar
-  ```
-
-  the architecture of the finsurf directory should then be:
-- __FINSURF__
-   - [LICENSE.txt](LICENSE.txt)
-   - [README.md](README.md)
-   - __env__
-     - [finsurf.yaml](env/finsurf.yaml)
-   - __scripts__
-     - [finsurf.py](scripts/finsurf.py)
-     - [plot\_contribution.py](scripts/plot_contribution.py)
-     - [utils.py](scripts/utils.py)
-   - __static__
-     - __data__
-       - 2020\-05\-11\_table\_genes\_FINSURF\_regions.tsv
-       - FINSURF\_REGULATORY\_REGIONS\_GENES.bed.gz
-       - FINSURF\_REGULATORY\_REGIONS\_GENES.bed.gz.tbi
-       - __FINSURF\_model\_objects__
-         - full\-model\_woTargs\_columns.txt
-         - rename\_columns\_model.tsv
-       - FULL\_FC\_transition.tsv.gz
-       - FULL\_FC\_transition.tsv.gz.tbi
-       - FULL\_FC\_transversion.tsv.gz
-       - FULL\_FC\_transversion.tsv.gz.tbi
-       - NUM\_FEATURES.tsv.gz
-       - NUM\_FEATURES.tsv.gz.tbi
-       - SCALED\_NUM\_FEATURES.tsv.gz
-       - SCALED\_NUM\_FEATURES.tsv.gz.tbi
-       - scores\_all\_chroms\_1e\-4.tsv.gz
-       - scores\_all\_chroms\_1e\-4.tsv.gz.tbi
-     - __samples__
-       - [gene.txt](static/samples/gene.txt)
-       - [variant.vcf](static/samples/variant.vcf)
-
-## Usage
-
-### Setting up your working environment for FINSURF
-
-Before any FINSURF run, you should:
- - go to FINSURF root folder,
- - activate the conda environment with `conda activate finsurf`.
-
-### Running FINSURF on example data
-
-Before using FINSURF on your data, we recommend running a test with our example data to ensure that installation was successful and to get familiar with the pipeline, inputs and outputs.
-
-#### Example 1: Simple FINSURF run
+- `non-HGMD-Genomizer_ranks_diseases_visualization.ipynb` shows the results of the application of
+  FINSURF-adjusted in simulated "real-case scenarios", as presented in main figure 4 and supplementary
+  figure 5
 
 
-
-To run FINSURF on example data:
-
-```
-scripts/finsurf.py -i static/data/samples/variant.vcf -s static/data/scores_all_chroms_1e-4.tsv.gz -g static/data/FINSURF_REGULATORY_REGIONS_GENES.bed.gz -ig static/data/samples/gene.txt
-
-```
-
-The following output should be generated:
-`res/result_*.txt`.
-
-To run FINSURF on the 49 variants from Genomizer:
-```
-python scripts/finsurf.py -i static/data/samples/Genomizer_49_var.vcf -s static/data/scores_all_chroms_1e-4.tsv.gz -g static/data/FINSURF_REGULATORY_REGIONS_GENES.bed.gz -ig static/data/samples/Genomizer_49_var_GENES.tsv
-
-```
-
-
-to plot the contributions for one specific variant:
-```
-python scripts/plot_contribution.py --variant "chr1:12005" --vartype "transition" --rename_cols_table static/data/FINSURF_model_objects/rename_columns_model.tsv --numFeat_path static/data/NUM_FEATURES.tsv.gz --scaled_numFeat_path static/data/SCALED_NUM_FEATURES.tsv.gz --featCont_transition_path static/data/FULL_FC_transition.tsv.gz --featCont_transversion_path static/data/FULL_FC_transversion.tsv.gz
-```
-
-to plot the contributions for one specific variant from Genomizer dataset:
-
-```
-python scripts/plot_contribution.py --variant "chr8:21988220" --vartype "transition" --rename_cols_table static/data/FINSURF_model_objects/rename_columns_model.tsv --numFeat_path static/data/NUM_FEATURES.tsv.gz --scaled_numFeat_path static/data/SCALED_NUM_FEATURES.tsv.gz --featCont_transition_path static/data/FULL_FC_transition.tsv.gz --featCont_transversion_path static/data/FULL_FC_transversion.tsv.gz
-
-```
-
-The script should generate the html file in res directory such [as this one](http://dyogenibens.github.io/FINSURF/res_chr8_21988220_Genomizer.html)
