@@ -32,9 +32,9 @@ Email finsurf {at} bio {dot} ens {dot} psl {dot} eu
 
 *If you use FINSURF, please cite:*
 
-Classification of non-coding variants with high pathogenic impact
+**Classification of non-coding variants with high pathogenic impact.**
 Lambert Moyon, Camille Berthelot, Alexandra Louis, Nga Thi Thuy Nguyen, Hugues Roest Crollius
-bioRxiv 2021.05.03.442347; doi: https://doi.org/10.1101/2021.05.03.442347
+PLoS Genet. 2022 Apr 29;18(4):e1010191. doi: [10.1371/journal.pgen.1010191](https://doi.org/10.1371/journal.pgen.1010191).
 
 # Quick start
 
